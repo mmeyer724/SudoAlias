@@ -46,5 +46,4 @@ public class AliasListener implements Listener {
 			}
 		}
 	}
-
 }
