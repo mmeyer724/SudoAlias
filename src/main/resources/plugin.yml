@@ -1,0 +1,9 @@
+name: SudoAlias
+author: Mike724
+version: ${version}
+main: com.mike724.sudoalias.SudoAlias
+commands:
+  sudoalias:
+    description: SudoAlias management command
+    aliases: [sa]
+    usage: Syntax Error! /<command> help

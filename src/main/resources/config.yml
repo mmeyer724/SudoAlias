@@ -1,0 +1,7 @@
+# SudoAlias config.yml - Read the configuration page on the dev.bukkit.org project page for help
+aliases:
+  TestAlias:
+    command: test
+    runCommand: [say Hello World, say This is a test $player]
+    runAs: CONSOLE
+    successMessage: It worked!
