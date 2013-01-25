@@ -12,6 +12,16 @@
         </repository>
     </repositories>
     <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources/</directory>
+                <includes>
+                    <include>plugin.yml</include>
+                    <include>config.yml</include>
+                </includes>
+            </resource>
+        </resources>
         <defaultGoal>clean compile package</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
         <plugins>
