@@ -39,7 +39,17 @@ public class SudoAlias extends JavaPlugin {
 		for(String key : keys) {
 			String path = "aliases."+key;
 			String perm = "SudoAlias.alias."+key;
-			String command = config.getString(path+".command");
+			
+			String commandOrig = config.getString(path+".command");
+			
+			String command = commandOrig.substring(0, commandOrig.indexOf(' ')-1);
+			String args = commandOrig.substring(command.length()+1);
+			int argCount = args.length() - args.replace("?", "").length();
+			log.info("commandOrig: "+commandOrig);
+			log.info("command: "+command);
+			log.info("args: "+args);
+			log.info("argCount: "+argCount);
+			
 			List<String> commandsToRun = config.getStringList(path+".runCommand");
 			String successMsg = config.getString(path+".successMessage");
 			String runAsString = config.getString(path+".runAs");
