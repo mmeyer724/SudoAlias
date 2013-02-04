@@ -9,9 +9,11 @@ public class Alias {
 	private String successMsg;
 	private String permNode;
 	private AliasRunAs runAs;
+	private int amountOfArgs;
 	
-	public Alias(String command, List<String> commandToRun, String successMsg, String permNode, AliasRunAs runAs) {
+	public Alias(String command, int amountOfArgs, List<String> commandToRun, String successMsg, String permNode, AliasRunAs runAs) {
 		this.command = command;
+		this.amountOfArgs = amountOfArgs;
 		this.commandsToRun = commandToRun;
 		this.successMsg = (successMsg==null) ? "" : successMsg;
 		this.permNode = permNode;
@@ -24,6 +26,14 @@ public class Alias {
 
 	public void setCommand(String command) {
 		this.command = command;
+	}
+
+	public int getAmountOfArgs() {
+		return amountOfArgs;
+	}
+
+	public void setAmountOfArgs(int amountOfArgs) {
+		this.amountOfArgs = amountOfArgs;
 	}
 
 	public List<String> getCommandsToRun() {
@@ -63,6 +73,7 @@ public class Alias {
 		String info = "Alias Information\n";
 		info += "=================\n";
 		info += "command: "+command+"\n";
+		info += "amountOfArgs: "+amountOfArgs+"\n";
 		info += "commandToRun: "+commandsToRun+"\n";
 		info += "successMsg: "+successMsg+"\n";
 		info += "permNode: "+permNode+"\n";

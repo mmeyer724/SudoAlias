@@ -40,15 +40,15 @@ public class SudoAlias extends JavaPlugin {
 			String path = "aliases."+key;
 			String perm = "SudoAlias.alias."+key;
 			
-			String commandOrig = config.getString(path+".command");
-			
-			String command = commandOrig.substring(0, commandOrig.indexOf(' ')-1);
-			String args = commandOrig.substring(command.length()+1);
-			int argCount = args.length() - args.replace("?", "").length();
-			log.info("commandOrig: "+commandOrig);
-			log.info("command: "+command);
-			log.info("args: "+args);
-			log.info("argCount: "+argCount);
+			String commandOrig = config.getString(path+".command"), command;
+			int argCount = 0;
+			if(commandOrig.contains(" ")) {
+				command = commandOrig.substring(0, commandOrig.indexOf(' '));
+				String args = commandOrig.substring(command.length()+1);
+				argCount = args.length() - args.replace("?", "").length();
+			} else {
+				command = commandOrig;
+			}
 			
 			List<String> commandsToRun = config.getStringList(path+".runCommand");
 			String successMsg = config.getString(path+".successMessage");
@@ -61,7 +61,7 @@ public class SudoAlias extends JavaPlugin {
 				log.warning("Alias "+key+" skipped due to missing/incorrect information");
 				continue;
 			}
-			aliasList.add(new Alias(command, commandsToRun, successMsg, perm, runAs));
+			aliasList.add(new Alias(command, argCount, commandsToRun, successMsg, perm, runAs));
 		}
 		return aliasList;
 	}
