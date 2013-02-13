@@ -16,6 +16,7 @@
 */
 package com.mike724.sudoalias;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -40,9 +41,11 @@ public class SudoAlias extends JavaPlugin {
 			this.getDataFolder().mkdir();
 		}
 		FileConfiguration config = this.getConfig();
-		config.options().copyDefaults(true);
-		config.options().copyHeader(true);
-		this.saveConfig();
+		if(!new File(this.getDataFolder(), "config.yml").exists()) {
+			config.options().copyDefaults(true);
+			config.options().copyHeader(true);
+			this.saveConfig();
+		}
 		aliases = load(config);
 		
 		this.getServer().getPluginManager().registerEvents(new AliasListener(), this);
@@ -58,8 +61,8 @@ public class SudoAlias extends JavaPlugin {
 			
 			String commandOrig = config.getString(path+".command"), command;
 			int argCount = 0;
-			if(commandOrig.contains(" ")) {
-				command = commandOrig.substring(0, commandOrig.indexOf(' '));
+			if(commandOrig.contains("?")) {
+				command = commandOrig.substring(0, commandOrig.indexOf('?')-1);
 				String args = commandOrig.substring(command.length()+1);
 				argCount = args.length() - args.replace("?", "").length();
 			} else {

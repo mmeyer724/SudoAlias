@@ -29,16 +29,15 @@ public class AliasListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void handleCommandEvent(PlayerCommandPreprocessEvent pcpe) {
 		SudoAlias plugin = SudoAlias.getInstance();
-		String message = pcpe.getMessage();
-		String[] split = message.split(" ");
-		String calledCmd = message;
-		int amtArgs = 0;
-		if(split.length != 0) {
-			calledCmd = split[0];
-			amtArgs = split.length-1;
-		}
+		String cmd = pcpe.getMessage();
 		for(Alias alias : plugin.aliases) {
-			if(calledCmd.equalsIgnoreCase("/"+alias.getCommand()) && alias.getAmountOfArgs() == amtArgs) {
+			String aliasCmd = alias.getCommand();
+			if(cmd.startsWith("/"+aliasCmd)) {
+				String[] args = cmd.substring(("/"+aliasCmd).length(), cmd.length()).split(" ");
+				int argAmt = args.length - 1;
+				if(argAmt != alias.getAmountOfArgs()) {
+					continue;
+				}
 				Player player = pcpe.getPlayer();
 				if(player.hasPermission(alias.getPermNode())) {
 					CommandSender sender = null;
@@ -53,12 +52,12 @@ public class AliasListener implements Listener {
 							break;
 					}
 					String playerName = player.getName();
-					for(String cmd : alias.getCommandsToRun()) {
-						cmd = cmd.replace("$player", playerName);
-						for(int i=0;i<amtArgs;i++) {
-							cmd = cmd.replace("$"+i, split[i+1]);
+					for(String command : alias.getCommandsToRun()) {
+						command = command.replace("$player", playerName);
+						for(int i=0;i<argAmt;i++) {
+							command = command.replace("$"+i, args[i+1]);
 						}
-						plugin.getServer().dispatchCommand(sender, cmd.replace("$player", playerName));	
+						plugin.getServer().dispatchCommand(sender, command);	
 					}
 					String successMsg = alias.getSuccessMessage();
 					if(successMsg!="") {
@@ -70,6 +69,7 @@ public class AliasListener implements Listener {
 					pcpe.setCancelled(true);
 					return;
 				}
+				break;
 			}
 		}
 	}

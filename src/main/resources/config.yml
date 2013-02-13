@@ -7,6 +7,6 @@ aliases:
     successMessage: It worked!
   TestAliasWithArgs:
     command: test ? ?
-    runCommand: [say Argument 1: $0, say Argument 2: $1]
+    runCommand: ['say Argument 1: $0', 'say Argument 2: $1']
     runAs: CONSOLE
     successMessage: It worked 2!
