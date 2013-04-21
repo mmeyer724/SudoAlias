@@ -24,6 +24,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+@SuppressWarnings("unused")
 public class AliasListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGH)
