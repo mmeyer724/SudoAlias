@@ -4,6 +4,7 @@
 .classpath
 bin/*
 target/*
+.idea/*
 
 # Package Files #
 *.jar
