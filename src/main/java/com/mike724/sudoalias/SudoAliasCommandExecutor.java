@@ -33,6 +33,8 @@ public class SudoAliasCommandExecutor implements CommandExecutor {
                         SudoAlias.getInstance().reload();
                         sender.sendMessage(ChatColor.GREEN + "SudoAlias configuration reloaded!");
                         return true;
+                    } else if (args[0].equalsIgnoreCase("nothing")) {
+                        return true;
                     }
                 }
             } else {
