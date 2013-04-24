@@ -16,9 +16,6 @@
 */
 package com.mike724.sudoalias;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,52 +23,17 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 @SuppressWarnings("unused")
 public class AliasListener implements Listener {
-	
-	@EventHandler(priority = EventPriority.HIGH)
-	public void handleCommandEvent(PlayerCommandPreprocessEvent pcpe) {
-		SudoAlias plugin = SudoAlias.getInstance();
-		String cmd = pcpe.getMessage();
-		for(Alias alias : plugin.aliases) {
-			String aliasCmd = alias.getCommand();
-			if(cmd.startsWith("/"+aliasCmd)) {
-				String[] args = cmd.substring(("/"+aliasCmd).length(), cmd.length()).split(" ");
-				int argAmt = args.length - 1;
-				if(argAmt != alias.getAmountOfArgs()) {
-					continue;
-				}
-				Player player = pcpe.getPlayer();
-				if(player.hasPermission(alias.getPermNode())) {
-					CommandSender sender = null;
-					switch(alias.getRunAs()) {
-						case CONSOLE:
-							sender = plugin.getServer().getConsoleSender();
-							break;
-						case PLAYER:
-							sender = (CommandSender)player;
-							break;
-						default:
-							break;
-					}
-					String playerName = player.getName();
-					for(String command : alias.getCommandsToRun()) {
-						command = command.replace("$player", playerName);
-						for(int i=0;i<argAmt;i++) {
-							command = command.replace("$"+i, args[i+1]);
-						}
-						plugin.getServer().dispatchCommand(sender, command);	
-					}
-					String successMsg = alias.getSuccessMessage();
-					if(successMsg!="") {
-						player.sendMessage(successMsg);
-					}
-					pcpe.setCancelled(true);
-				} else {
-					player.sendMessage(ChatColor.RED+"Permission denied!");
-					pcpe.setCancelled(true);
-					return;
-				}
-				break;
-			}
-		}
-	}
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void handleCommandEvent(PlayerCommandPreprocessEvent e) {
+        SudoAlias plugin = SudoAlias.getInstance();
+        for (Alias alias : plugin.aliases) {
+            if (alias.isMatch(e.getMessage())) {
+                plugin.getServer().getScheduler().runTaskAsynchronously(plugin,
+                        new AliasExecutor(alias, e.getMessage(), e.getPlayer(), e.getPlayer().getName()));
+                return;
+            }
+        }
+    }
+
 }

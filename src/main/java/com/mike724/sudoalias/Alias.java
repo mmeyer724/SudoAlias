@@ -16,85 +16,105 @@
 */
 package com.mike724.sudoalias;
 
+import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Alias {
-	
-	private String command;
-	private List<String> commandsToRun;
-	private String successMsg;
-	private String permNode;
-	private AliasRunAs runAs;
-	private int amountOfArgs;
-	
-	public Alias(String command, int amountOfArgs, List<String> commandToRun, String successMsg, String permNode, AliasRunAs runAs) {
-		this.command = command;
-		this.amountOfArgs = amountOfArgs;
-		this.commandsToRun = commandToRun;
-		this.successMsg = (successMsg==null) ? "" : successMsg;
-		this.permNode = permNode;
-		this.runAs = runAs;
-	}
 
-	public String getCommand() {
-		return command;
-	}
+    private String command;
+    private List<String> commandsToRun;
+    private String successMsg;
+    private String permNode;
+    private AliasRunAs runAs;
+    private int amountOfArgs;
 
-	public void setCommand(String command) {
-		this.command = command;
-	}
+    public Alias(String command, int amountOfArgs, List<String> commandToRun, String successMsg, String permNode, AliasRunAs runAs) {
+        this.command = command;
+        this.amountOfArgs = amountOfArgs;
+        this.commandsToRun = commandToRun;
+        this.successMsg = (successMsg == null) ? "" : successMsg;
+        this.permNode = permNode;
+        this.runAs = runAs;
+    }
 
-	public int getAmountOfArgs() {
-		return amountOfArgs;
-	}
+    public String getCommand() {
+        return command;
+    }
 
-	public void setAmountOfArgs(int amountOfArgs) {
-		this.amountOfArgs = amountOfArgs;
-	}
+    public void setCommand(String command) {
+        this.command = command;
+    }
 
-	public List<String> getCommandsToRun() {
-		return commandsToRun;
-	}
+    public int getAmountOfArgs() {
+        return amountOfArgs;
+    }
 
-	public void setCommandsToRun(List<String> commandsToRun) {
-		this.commandsToRun = commandsToRun;
-	}
+    public void setAmountOfArgs(int amountOfArgs) {
+        this.amountOfArgs = amountOfArgs;
+    }
 
-	public String getSuccessMessage() {
-		return successMsg;
-	}
+    public List<String> getCommandsToRun() {
+        return commandsToRun;
+    }
 
-	public void setSuccessMessage(String successMsg) {
-		this.successMsg = successMsg;
-	}
+    public void setCommandsToRun(List<String> commandsToRun) {
+        this.commandsToRun = commandsToRun;
+    }
 
-	public String getPermNode() {
-		return permNode;
-	}
+    public String getSuccessMessage() {
+        return successMsg;
+    }
 
-	public void setPermNode(String permNode) {
-		this.permNode = permNode;
-	}
+    public void setSuccessMessage(String successMsg) {
+        this.successMsg = successMsg;
+    }
 
-	public AliasRunAs getRunAs() {
-		return runAs;
-	}
+    public String getPermNode() {
+        return permNode;
+    }
 
-	public void setRunAs(AliasRunAs runAs) {
-		this.runAs = runAs;
-	}
-	
-	@Override
-	public String toString() {
-		String info = "Alias Information\n";
-		info += "=================\n";
-		info += "command: "+command+"\n";
-		info += "amountOfArgs: "+amountOfArgs+"\n";
-		info += "commandToRun: "+commandsToRun+"\n";
-		info += "successMsg: "+successMsg+"\n";
-		info += "permNode: "+permNode+"\n";
-		info += "runAs: "+runAs.name()+"";
-		return info;
-	}
-	
+    public void setPermNode(String permNode) {
+        this.permNode = permNode;
+    }
+
+    public AliasRunAs getRunAs() {
+        return runAs;
+    }
+
+    public void setRunAs(AliasRunAs runAs) {
+        this.runAs = runAs;
+    }
+
+    public boolean isMatch(String cmd) {
+        String aliasCmd = this.getCommand();
+        if (cmd.startsWith("/" + aliasCmd)) {
+            String[] args = this.getArgs(cmd);
+            int argAmt = args.length;
+            if (argAmt != this.getAmountOfArgs()) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public String[] getArgs(String cmd) {
+        String[] arr = cmd.substring(("/" + this.getCommand()).length(), cmd.length()).split(" ");
+        return Arrays.copyOfRange(arr, 1, arr.length);
+    }
+
+    @Override
+    public String toString() {
+        String info = "Alias Information\n";
+        info += "=================\n";
+        info += "command: " + command + "\n";
+        info += "amountOfArgs: " + amountOfArgs + "\n";
+        info += "commandToRun: " + commandsToRun + "\n";
+        info += "successMsg: " + successMsg + "\n";
+        info += "permNode: " + permNode + "\n";
+        info += "runAs: " + runAs.name() + "";
+        return info;
+    }
+
 }

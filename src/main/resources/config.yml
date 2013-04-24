@@ -2,11 +2,11 @@
 aliases:
   TestAlias:
     command: test
-    runCommand: [say Hello World, say This is a test $player]
+    runCommand: ['say Hello World', 'say This is a test $player']
     runAs: CONSOLE
     successMessage: It worked!
   TestAliasWithArgs:
     command: test ? ?
-    runCommand: ['say Argument 1: $0', 'say Argument 2: $1']
+    runCommand: ['say Argument 1: $0', 'say Waiting 10 secs...', '$wait:10000', 'say Argument 2: $1']
     runAs: CONSOLE
     successMessage: It worked 2!
