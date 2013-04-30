@@ -52,9 +52,11 @@ public class AliasExecutor implements Runnable {
                 }
                 Server server = SudoAlias.getInstance().getServer();
                 if(alias.getRunAs() == AliasRunAs.CONSOLE) {
-                    server.dispatchCommand(server.getConsoleSender(), command);
+                    server.getScheduler().scheduleSyncDelayedTask(SudoAlias.getInstance(),
+                            new AliasCmdExecutor(server.getConsoleSender(), command));
                 } else if(alias.getRunAs() == AliasRunAs.PLAYER) {
-                    server.dispatchCommand(sender, command);
+                    server.getScheduler().scheduleSyncDelayedTask(SudoAlias.getInstance(),
+                            new AliasCmdExecutor(sender, command));
                 }
             }
         }
