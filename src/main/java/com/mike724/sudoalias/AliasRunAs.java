@@ -16,7 +16,12 @@
 */
 package com.mike724.sudoalias;
 
+/**
+ * The available RunAs Options
+ * 
+ * @author mike724
+*/
 public enum AliasRunAs {
-    CONSOLE,
-    PLAYER
+    CONSOLE, // Run the command on the server console
+    PLAYER // Run the command as the player who executed it
 }
