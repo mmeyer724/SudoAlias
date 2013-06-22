@@ -27,9 +27,9 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class Alias {
 
-	/**
-	 * The alias command
-	*/
+    /**
+     * The alias command
+    */
     private String command;
     
     /**
@@ -57,7 +57,7 @@ public class Alias {
     */
     private int amountOfArgs;
 
-	/**
+    /**
      * Class constructor
      * 
      * @param command 		value to hold
@@ -76,153 +76,141 @@ public class Alias {
         this.runAs = runAs;
     }
 
-	/**
-	 * Simple getter for the command variable
-	 * 
-	 * @return the current variable in memory
-	*/
+    /**
+     * Simple getter for the command variable
+     * 
+     * @return the current variable in memory
+    */
     public String getCommand() {
-        return command;
+        return this.command;
     }
 
-	/**
-	 * Simple setter for the command variable
-	 * 
-	 * @param command 	the new value to replace the old one
-	 * @todo replace command with value for unification and to make future changes easier
-	 * @note returning the old value or both old and new is common practice
-	*/
-    public void setCommand(String command) {
-        this.command = command;
+    /**
+     * Simple setter for the command variable
+     * 
+     * @param value the new value to replace the old one
+    */
+    public String setCommand(String value) {
+        return this.command = value;
     }
 
-	/**
-	 * Simple getter for the amountOfArgs variable
-	 * 
-	 * @return the current variable in memory
-	*/
+    /**
+     * Simple getter for the amountOfArgs variable
+     * 
+     * @return the current variable in memory
+    */
     public int getAmountOfArgs() {
-        return amountOfArgs;
+        return this.amountOfArgs;
     }
 
-	/**
-	 * Simple setter for the amountOfArgs variable
-	 * 
-	 * @param amountOfargs	the new value to replace the old one
-	 * @todo replace amountOfargs with value for unification and to make future changes easier
-	 * @note returning the old value or both old and new is common practice
-	*/
-    public void setAmountOfArgs(int amountOfArgs) {
-        this.amountOfArgs = amountOfArgs;
+    /**
+     * Simple setter for the amountOfArgs variable
+     * 
+     * @param value the new value to replace the old one
+     * @note returning the old value or both old and new is common practice
+    */
+    public int setAmountOfArgs(int value) {
+        return this.amountOfArgs = value;
     }
 
-	/**
-	 * Simple getter for the commandsToRun variable
-	 * 
-	 * @return the current variable in memory
-	*/
+    /**
+     * Simple getter for the commandsToRun variable
+     * 
+     * @return the current variable in memory
+    */
     public List<String> getCommandsToRun() {
-        return commandsToRun;
+        return this.commandsToRun;
     }
 
-	/**
-	 * Simple setter for the commandsToRun variable
-	 * 
-	 * @param commandsToRun	the new value to replace the old one
-	 * @todo replace commandsToRun with value for unification and to make future changes easier
-	 * @note returning the old value or both old and new is common practice
-	*/
-    public void setCommandsToRun(List<String> commandsToRun) {
-        this.commandsToRun = commandsToRun;
+    /**
+     * Simple setter for the commandsToRun variable
+     * 
+     * @param value the new value to replace the old one
+    */
+    public List<String> setCommandsToRun(List<String> value) {
+        return this.commandsToRun = value;
     }
 
-	/**
-	 * Simple getter for the successMsg variable
-	 * 
-	 * @return the current variable in memory
-	*/
+    /**
+     * Simple getter for the successMsg variable
+     * 
+     * @return the current variable in memory
+    */
     public String getSuccessMessage() {
-        return successMsg;
+        return this.successMsg;
     }
 
-	/**
-	 * Simple setter for the successMsg variable
-	 * 
-	 * @param successMsg	the new value to replace the old one
-	 * @todo replace successMsg with value for unification and to make future changes easier
-	 * @note returning the old value or both old and new is common practice
-	*/
-    public void setSuccessMessage(String successMsg) {
-        this.successMsg = successMsg;
+    /**
+     * Simple setter for the successMsg variable
+     * 
+     * @param value the new value to replace the old one
+    */
+    public String setSuccessMessage(String value) {
+        return this.successMsg = value;
     }
 
-	/**
-	 * Simple getter for the permNode variable
-	 * 
-	 * @return the current variable in memory
-	*/
+    /**
+     * Simple getter for the permNode variable
+     * 
+     * @return the current variable in memory
+    */
     public String getPermNode() {
-        return permNode;
+        return this.permNode;
     }
 
-	/**
-	 * Simple setter for the permNode variable
-	 * 
-	 * @param permNode	the new value to replace the old one
-	 * @todo replace permNode with value for unification and to make future changes easier
-	 * @note returning the old value or both old and new is common practice
-	*/
-    public void setPermNode(String permNode) {
-        this.permNode = permNode;
+    /**
+     * Simple setter for the permNode variable
+     * 
+     * @param value the new value to replace the old one
+    */
+    public String setPermNode(String value) {
+        return this.permNode = value;
     }
 
-	/**
-	 * Simple getter for the runAs variable
-	 * 
-	 * @return the current variable in memory
-	*/
+    /**
+     * Simple getter for the runAs variable
+     * 
+     * @return the current variable in memory
+    */
     public AliasRunAs getRunAs() {
-        return runAs;
+        return this.runAs;
     }
 
-	/**
-	 * Simple setter for the runAs variable
-	 * 
-	 * @param runAs	the new value to replace the old one
-	 * @todo replace runAs with value for unification and to make future changes easier
-	 * @note returning the old value or both old and new is common practice
-	*/
-    public void setRunAs(AliasRunAs runAs) {
-        this.runAs = runAs;
+    /**
+     * Simple setter for the runAs variable
+     * 
+     * @param value the new value to replace the old one
+     * @todo replace runAs with value for unification and to make future changes easier
+     * @note returning the old value or both old and new is common practice
+    */
+    public AliasRunAs setRunAs(AliasRunAs value) {
+        return this.runAs = value;
     }
 
-	/**
-	 * Is the entered value a complete match
-	 * 
-	 * Does a comparison to see if the entered command is the same as this alias
-	 * and also makes sure the arguments are an exact match as well or the whole request
-	 * is rejected
-	 * 
-	 * @param cmd The raw command string entered by the user (Slash as well)
-	 * @return boolean whether the command is a complete match or not
-	*/
-    public boolean isMatch(String cmd) {
-    	
-    	// Get class alias
-        String aliasCmd = this.getCommand();
+    /**
+     * Is the entered value a complete match
+     * 
+     * Does a comparison to see if the entered command is the same as this alias
+     * and also makes sure the arguments are an exact match as well or the whole request
+     * is rejected
+     * 
+     * @param command The raw command string entered by the user (Slash as well)
+     * @return boolean whether the command is a complete match or not
+    */
+    public boolean isMatch(String command) {
         
         // Check for a match
-		// prefix the slash to the alias stored here since that's removed upon storing here
-        if (cmd.startsWith("/" + aliasCmd)) {
+	// prefix the slash to the alias stored here since that's removed upon storing here
+        if (command.startsWith("/" + this.getCommand())) {
         
-        	// Break the entered command into individual arguments
-            String[] args = this.getArgs(cmd);
+            // Break the entered command into individual arguments
+            String[] args = this.getArgs(command);
             
             // Get the length of the arguments
-            int argAmt = args.length;
+            int amountOfArgs = args.length;
             
             // Confirm the number of arguments match the ones stored here
-            if (argAmt != this.getAmountOfArgs()) {
+            if (amountOfArgs != this.getAmountOfArgs()) {
                 return false;
             }
             return true;
@@ -230,25 +218,26 @@ public class Alias {
         return false;
     }
 
-	/**
-	 * Breaks the command string into individual segments
-	 * 
-	 * @param cmd the command string
-	 * @return the command segments
-	*/
-    public String[] getArgs(String cmd) {
+    /**
+     * Breaks the command string into individual segments
+     * 
+     * @param command the command string
+     * @return the command segments
+    */
+    public String[] getArgs(String command) {
+        
     	// Break the command up into segments (command as well)
-        String[] arr = cmd.substring(("/" + this.getCommand()).length(), cmd.length()).split(" ");
+        String[] commandExploded = command.substring(("/" + this.getCommand()).length(), command.length()).split(" ");
         
         // Return all segments but the first one (the command)
-        return Arrays.copyOfRange(arr, 1, arr.length);
+        return Arrays.copyOfRange(commandExploded, 1, commandExploded.length);
     }
 
-	/**
-	 * Custom class serialization
-	 * 
-	 * @return the serialized class
-	*/
+    /**
+     * Custom class serialization
+     * 
+     * @return the serialized class
+    */
     @Override
     public String toString() {
         String info = "Alias Information\n";
