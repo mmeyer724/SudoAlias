@@ -16,33 +16,63 @@
 */
 package com.mike724.sudoalias;
 
+// Core Bukkit Imports
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 
+/**
+ * Plugin Command Executor
+ * 
+ * @author mike724
+*/
 public class SudoAliasCommandExecutor implements CommandExecutor {
 
+	/**
+	 * When a command is sent from somewhere
+	 * 
+	 * @param sender Sender Details
+	 * @param cmd Command Details
+	 * @param label ?
+	 * @param args ? (Command Arguments?)
+	 * @return ?
+	 * @todo Fill this out
+	*/
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    	
+    	// If someone typed /sudoalias (Case insensitive)
         if (cmd.getName().equalsIgnoreCase("sudoalias")) {
             if (args.length != 0) {
+            
+            	// With one argument
                 if (args.length == 1) {
+                	
+                	// @note there is a permission SudoAlias.reload
+                	// @note reload can be called from anywhere
                     if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("SudoAlias.reload")) {
+                    	
+                    	// And that argument is reload
                         SudoAlias.getInstance().reload();
                         sender.sendMessage(ChatColor.GREEN + "SudoAlias configuration reloaded!");
                         return true;
+                        
                     } else if (args[0].equalsIgnoreCase("nothing")) {
+                    	// @note Part of the hack workaround
                         return true;
                     }
                 }
             } else {
+            	// If called without args
                 PluginDescriptionFile pdf = SudoAlias.getInstance().getDescription();
                 sender.sendMessage(ChatColor.AQUA + "SudoAlias " + ChatColor.YELLOW + "v" + pdf.getVersion() + ChatColor.AQUA + " by " + ChatColor.YELLOW + pdf.getAuthors().get(0) + ChatColor.AQUA + " is " + ChatColor.GREEN + "running");
                 return true;
             }
         }
+        
+        // Signal that we're ignoring this one
         return false;
     }
 
