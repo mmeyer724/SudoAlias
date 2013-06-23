@@ -16,6 +16,7 @@
 */
 package com.mike724.sudoalias;
 
+// Core Bukkit Imports
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -38,7 +39,6 @@ public class AliasListener implements Listener {
 	 * list of aliases in memory
 	 * 
 	 * @param PlayerCommandPreprocessEvent the details on the event
-	 * @todo Clarify that this is accurate
 	*/
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleCommandEvent(PlayerCommandPreprocessEvent e) {
@@ -49,15 +49,15 @@ public class AliasListener implements Listener {
         // Get all the registered aliases
         for (Alias alias : plugin.aliases) {
         
-        	// Compare the raw entered string with each alias for a match
+            // Compare the raw entered string with each alias for a match
             if (alias.isMatch(e.getMessage())) {
             
             	// Trigger event
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin,
                         new AliasExecutor(alias, e.getMessage(), e.getPlayer(), e.getPlayer().getName()));
                         
-                // ?
-                // @todo Fill out
+                // @note According to the api docs, canceling an event actually
+                // tells bukkit you accept it
                 e.setCancelled(true);
                 return;
             }
@@ -72,7 +72,6 @@ public class AliasListener implements Listener {
 	 * list of aliases in memory
 	 * 
 	 * @param ServerCommandEvent the details on the event
-	 * @todo Clarify that this is accurate
 	*/
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleServerCommandEvent(ServerCommandEvent e) {
@@ -87,16 +86,19 @@ public class AliasListener implements Listener {
         // Get all the registered aliases
         for (Alias alias : plugin.aliases) {
         
-        	// Compare the raw entered string with each alias for a match
+            // Compare the raw entered string with each alias for a match
             if (alias.isMatch(cmd)) {
             
             	// Trigger event
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin,
                         new AliasExecutor(alias, cmd, e.getSender(), e.getSender().getName()));
         		
-        		// ?
+                // ?
                 // @todo Fill out
                 // @todo Explain this hack and reason
+                // I'm guessing that in some strange way this ends up
+                // accpeting the event by telling bukkit to call the application
+                // back for a command that the application does nothing to.
                 //No setCancelled, have to be "hacky"
                 e.setCommand("sudoalias nothing");
                 return;
