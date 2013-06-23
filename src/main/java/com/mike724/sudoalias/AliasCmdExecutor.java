@@ -1,9 +1,10 @@
 package com.mike724.sudoalias;
 
+// Core Bukkit Imports
 import org.bukkit.command.CommandSender;
 
 /**
- * Executes the alias command
+ * Executes a single alias command
  * 
  * @author mike724
 */
