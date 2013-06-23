@@ -60,12 +60,12 @@ public class Alias {
     /**
      * Class constructor
      * 
-     * @param command 		value to hold
-     * @param amountOfArgs 	value to hold
-     * @param commandToRun 	value to hold
-     * @param successMsg 	value to hold
-     * @param permNode 		value to hold
-     * @param runAs 		value to hold
+     * @param command 		The command without slash
+     * @param amountOfArgs 	number of arguments with command
+     * @param commandToRun 	list of commands to run
+     * @param successMsg 	the success message
+     * @param permNode 		the command permission string
+     * @param runAs 		run as who value
     */
     public Alias(String command, int amountOfArgs, List<String> commandToRun, String successMsg, String permNode, AliasRunAs runAs) {
         this.command = command;
@@ -79,7 +79,7 @@ public class Alias {
     /**
      * Simple getter for the command variable
      * 
-     * @return the current variable in memory
+     * @return the current value
     */
     public String getCommand() {
         return this.command;
@@ -89,6 +89,7 @@ public class Alias {
      * Simple setter for the command variable
      * 
      * @param value the new value to replace the old one
+     * @return The newly stored value
     */
     public String setCommand(String value) {
         return this.command = value;
@@ -97,7 +98,7 @@ public class Alias {
     /**
      * Simple getter for the amountOfArgs variable
      * 
-     * @return the current variable in memory
+     * @return the current value in memory
     */
     public int getAmountOfArgs() {
         return this.amountOfArgs;
@@ -107,7 +108,7 @@ public class Alias {
      * Simple setter for the amountOfArgs variable
      * 
      * @param value the new value to replace the old one
-     * @note returning the old value or both old and new is common practice
+     * @return the newly stored value
     */
     public int setAmountOfArgs(int value) {
         return this.amountOfArgs = value;
@@ -116,7 +117,7 @@ public class Alias {
     /**
      * Simple getter for the commandsToRun variable
      * 
-     * @return the current variable in memory
+     * @return the current value in memory
     */
     public List<String> getCommandsToRun() {
         return this.commandsToRun;
@@ -126,6 +127,7 @@ public class Alias {
      * Simple setter for the commandsToRun variable
      * 
      * @param value the new value to replace the old one
+     * @return the newly stored value
     */
     public List<String> setCommandsToRun(List<String> value) {
         return this.commandsToRun = value;
@@ -134,7 +136,7 @@ public class Alias {
     /**
      * Simple getter for the successMsg variable
      * 
-     * @return the current variable in memory
+     * @return the current value in memory
     */
     public String getSuccessMessage() {
         return this.successMsg;
@@ -144,6 +146,7 @@ public class Alias {
      * Simple setter for the successMsg variable
      * 
      * @param value the new value to replace the old one
+     * @return the newly stored value
     */
     public String setSuccessMessage(String value) {
         return this.successMsg = value;
@@ -162,6 +165,7 @@ public class Alias {
      * Simple setter for the permNode variable
      * 
      * @param value the new value to replace the old one
+     * @return the newly stored value
     */
     public String setPermNode(String value) {
         return this.permNode = value;
@@ -170,7 +174,7 @@ public class Alias {
     /**
      * Simple getter for the runAs variable
      * 
-     * @return the current variable in memory
+     * @return the current value in memory
     */
     public AliasRunAs getRunAs() {
         return this.runAs;
@@ -180,8 +184,7 @@ public class Alias {
      * Simple setter for the runAs variable
      * 
      * @param value the new value to replace the old one
-     * @todo replace runAs with value for unification and to make future changes easier
-     * @note returning the old value or both old and new is common practice
+     * @return the newly stored value
     */
     public AliasRunAs setRunAs(AliasRunAs value) {
         return this.runAs = value;
@@ -222,7 +225,7 @@ public class Alias {
      * Breaks the command string into individual segments
      * 
      * @param command the command string
-     * @return the command segments
+     * @return the command segments minus the command itself
     */
     public String[] getArgs(String command) {
         
