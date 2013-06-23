@@ -24,38 +24,38 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 /**
  * Event listener (Event Controller)
- * 
+ *
  * @author mike724
-*/
+ */
 @SuppressWarnings("unused")
 public class AliasListener implements Listener {
 
-	/**
-	 * Listens for when the user types a command then acts on it
-	 * 
-	 * When the user types something starting with a slash this method
-	 * processes it to see if it needs to act on it by comparing it to the
-	 * list of aliases in memory
-	 * 
-	 * @param PlayerCommandPreprocessEvent the details on the event
-	 * @todo Clarify that this is accurate
-	*/
+    /**
+     * Listens for when the user types a command then acts on it
+     * <p/>
+     * When the user types something starting with a slash this method
+     * processes it to see if it needs to act on it by comparing it to the
+     * list of aliases in memory
+     *
+     * @param PlayerCommandPreprocessEvent the details on the event
+     * @todo Clarify that this is accurate
+     */
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleCommandEvent(PlayerCommandPreprocessEvent e) {
-    	
-    	// Get this plugins instance
+
+        // Get this plugins instance
         SudoAlias plugin = SudoAlias.getInstance();
-        
+
         // Get all the registered aliases
         for (Alias alias : plugin.aliases) {
-        
-        	// Compare the raw entered string with each alias for a match
+
+            // Compare the raw entered string with each alias for a match
             if (alias.isMatch(e.getMessage())) {
-            
-            	// Trigger event
+
+                // Trigger event
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin,
                         new AliasExecutor(alias, e.getMessage(), e.getPlayer(), e.getPlayer().getName()));
-                        
+
                 // ?
                 // @todo Fill out
                 e.setCancelled(true);
@@ -64,37 +64,37 @@ public class AliasListener implements Listener {
         }
     }
 
-	/**
-	 * Listens for when the server admin types a command then into the server then acts on it
-	 * 
-	 * When the server admin types something into the server console this method
-	 * processes it to see if it needs to act on it by comparing it to the
-	 * list of aliases in memory
-	 * 
-	 * @param ServerCommandEvent the details on the event
-	 * @todo Clarify that this is accurate
-	*/
+    /**
+     * Listens for when the server admin types a command then into the server then acts on it
+     * <p/>
+     * When the server admin types something into the server console this method
+     * processes it to see if it needs to act on it by comparing it to the
+     * list of aliases in memory
+     *
+     * @param ServerCommandEvent the details on the event
+     * @todo Clarify that this is accurate
+     */
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleServerCommandEvent(ServerCommandEvent e) {
-    
-    	// Get the plugin instance
+
+        // Get the plugin instance
         SudoAlias plugin = SudoAlias.getInstance();
-        
+
         // Prefix a slash in front of the command
         // @note This slash thing is best to just leave as is, for different reasons
-        String cmd = "/"+e.getCommand();
-        
+        String cmd = "/" + e.getCommand();
+
         // Get all the registered aliases
         for (Alias alias : plugin.aliases) {
-        
-        	// Compare the raw entered string with each alias for a match
+
+            // Compare the raw entered string with each alias for a match
             if (alias.isMatch(cmd)) {
-            
-            	// Trigger event
+
+                // Trigger event
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin,
                         new AliasExecutor(alias, cmd, e.getSender(), e.getSender().getName()));
-        		
-        		// ?
+
+                // ?
                 // @todo Fill out
                 // @todo Explain this hack and reason
                 //No setCancelled, have to be "hacky"

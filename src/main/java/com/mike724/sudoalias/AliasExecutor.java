@@ -6,44 +6,44 @@ import org.bukkit.command.CommandSender;
 
 /**
  * ?
- * 
+ *
  * @author mike724
-*/
+ */
 public class AliasExecutor implements Runnable {
 
-	/**
-	 * The alias
-	*/
+    /**
+     * The alias
+     */
     private Alias alias;
-    
+
     /**
-	 * The command
-	*/
+     * The command
+     */
     private String cmd;
-    
+
     /**
-	 * ?
-	 * 
-	 * @todo Fill this in
-	*/
+     * ?
+     *
+     * @todo Fill this in
+     */
     private CommandSender sender;
-    
+
     /**
-	 * ?
-	 * 
-	 * @todo fill this in, I think it's the player name
-	*/
+     * ?
+     *
+     * @todo fill this in, I think it's the player name
+     */
     private String pName;
 
-	/**
-	 * Class constructor
-	 * 
-	 * @param alias The alias
-	 * @param cmd The command string
-	 * @param sender ?
-	 * @param pName ?
-	 * @todo Fill this in
-	*/
+    /**
+     * Class constructor
+     *
+     * @param alias  The alias
+     * @param cmd    The command string
+     * @param sender ?
+     * @param pName  ?
+     * @todo Fill this in
+     */
     public AliasExecutor(Alias alias, String cmd, CommandSender sender, String pName) {
         this.alias = alias;
         this.cmd = cmd;
@@ -51,21 +51,21 @@ public class AliasExecutor implements Runnable {
         this.pName = pName;
     }
 
-	/**
-	 * Thread Run method
-	*/
+    /**
+     * Thread Run method
+     */
     @Override
     public void run() {
-    	// Check for permissions first
+        // Check for permissions first
         if (!sender.hasPermission(alias.getPermNode())) {
-        	// @todo Create a standardized static messaging class with methods like
-        	// .warn, .log, and .error, etc... Good programming practice, makes
-        	// modifications easier, and creates consistency and shorter typing, less
-        	// duplicate code
+            // @todo Create a standardized static messaging class with methods like
+            // .warn, .log, and .error, etc... Good programming practice, makes
+            // modifications easier, and creates consistency and shorter typing, less
+            // duplicate code
             sender.sendMessage(ChatColor.RED + "Sorry, you don't have permission to do that.");
             return;
         }
-        
+
         // Don't understand this at all,
         // @todo needs clarification
         String[] args = alias.getArgs(cmd);
@@ -95,16 +95,16 @@ public class AliasExecutor implements Runnable {
                     command = command.replace("$" + i, args[i]);
                 }
                 Server server = SudoAlias.getInstance().getServer();
-                if(alias.getRunAs() == AliasRunAs.CONSOLE) {
+                if (alias.getRunAs() == AliasRunAs.CONSOLE) {
                     server.getScheduler().scheduleSyncDelayedTask(SudoAlias.getInstance(),
                             new AliasCmdExecutor(server.getConsoleSender(), command));
-                } else if(alias.getRunAs() == AliasRunAs.PLAYER) {
+                } else if (alias.getRunAs() == AliasRunAs.PLAYER) {
                     server.getScheduler().scheduleSyncDelayedTask(SudoAlias.getInstance(),
                             new AliasCmdExecutor(sender, command));
                 }
             }
         }
-        
+
         // Now that everything is over issue the success message if there is one
         String successMsg = alias.getSuccessMessage();
         if (!successMsg.isEmpty() && successMsg != null) {
