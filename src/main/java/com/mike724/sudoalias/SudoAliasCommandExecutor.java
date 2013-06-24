@@ -30,16 +30,16 @@ import org.bukkit.plugin.PluginDescriptionFile;
 */
 public class SudoAliasCommandExecutor implements CommandExecutor {
 
-	/**
-	 * When a command is sent from somewhere
-	 * 
-	 * @param sender Sender Details
-	 * @param cmd Command Details
-	 * @param label ?
-	 * @param args ? (Command Arguments?)
-	 * @return ?
-	 * @todo Fill this out
-	*/
+    /**
+     * When a command is sent from somewhere
+     * 
+     * @param sender Sender Details
+     * @param cmd Command Details
+     * @param label ?
+     * @param args ? (Command Arguments?)
+     * @return ?
+     * @todo Fill this out
+    */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
     	
@@ -50,8 +50,8 @@ public class SudoAliasCommandExecutor implements CommandExecutor {
             	// With one argument
                 if (args.length == 1) {
                 	
-                	// @note there is a permission SudoAlias.reload
-                	// @note reload can be called from anywhere
+                    // @note there is a permission SudoAlias.reload
+                    // @note reload can be called from anywhere
                     if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("SudoAlias.reload")) {
                     	
                     	// And that argument is reload

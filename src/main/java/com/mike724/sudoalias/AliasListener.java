@@ -31,15 +31,15 @@ import org.bukkit.event.server.ServerCommandEvent;
 @SuppressWarnings("unused")
 public class AliasListener implements Listener {
 
-	/**
-	 * Listens for when the user types a command then acts on it
-	 * 
-	 * When the user types something starting with a slash this method
-	 * processes it to see if it needs to act on it by comparing it to the
-	 * list of aliases in memory
-	 * 
-	 * @param PlayerCommandPreprocessEvent the details on the event
-	*/
+    /**
+     * Listens for when the user types a command then acts on it
+     * 
+     * When the user types something starting with a slash this method
+     * processes it to see if it needs to act on it by comparing it to the
+     * list of aliases in memory
+     * 
+     * @param PlayerCommandPreprocessEvent the details on the event
+    */
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleCommandEvent(PlayerCommandPreprocessEvent e) {
     	
@@ -64,15 +64,15 @@ public class AliasListener implements Listener {
         }
     }
 
-	/**
-	 * Listens for when the server admin types a command then into the server then acts on it
-	 * 
-	 * When the server admin types something into the server console this method
-	 * processes it to see if it needs to act on it by comparing it to the
-	 * list of aliases in memory
-	 * 
-	 * @param ServerCommandEvent the details on the event
-	*/
+    /**
+     * Listens for when the server admin types a command then into the server then acts on it
+     * 
+     * When the server admin types something into the server console this method
+     * processes it to see if it needs to act on it by comparing it to the
+     * list of aliases in memory
+     * 
+     * @param ServerCommandEvent the details on the event
+    */
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleServerCommandEvent(ServerCommandEvent e) {
     

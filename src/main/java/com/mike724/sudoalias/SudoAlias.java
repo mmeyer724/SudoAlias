@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -33,9 +34,9 @@ import java.util.logging.Logger;
 */
 public class SudoAlias extends JavaPlugin {
 
-	/**
-	 * The single plugin instance
-	*/
+    /**
+     * The single plugin instance
+    */
     private static SudoAlias instance;
     
     /**
@@ -49,23 +50,26 @@ public class SudoAlias extends JavaPlugin {
      * ?
      *
      * @note All class variables should be private with a public getter/setter for best practices
+     * @todo Investigate the Logger warning for being static and final and how it would
+     * affect this plugin
     */
     public Logger log;
 
-	/**
-	 * When the plugin becomes enabled
-	 * 
-	 * This is equivalent to a class constructor
-	*/
+    /**
+     * When the plugin becomes enabled
+     * 
+     * This is equivalent to a class constructor
+    */
     @Override
     public void onEnable() {
     
     	// Initialize variables
-        instance = this;
-        aliases = new ArrayList<Alias>();
-        log = this.getLogger();
+        //@note for best practices it's best to access a staticfield from an instance like this
+        SudoAlias.instance = this;
+        this.aliases = new ArrayList<Alias>();
+        this.log = this.getLogger();
 
-		// Make sure the config folder exists, if not create it
+	// Make sure the config folder exists, if not create it
         if (!this.getDataFolder().exists()) {
             this.getDataFolder().mkdir();
         }
@@ -80,20 +84,20 @@ public class SudoAlias extends JavaPlugin {
         }
         
         // Load the aliases from the config
-        aliases = load(config);
+        this.aliases = load(config);
 
-		// Setup the receiver for various events
+	// Setup the receiver for various events
         this.getServer().getPluginManager().registerEvents(new AliasListener(), this);
         this.getCommand("sudoalias").setExecutor(new SudoAliasCommandExecutor());
     }
 
-	/**
-	 * Loads the configuration file
-	 * 
-	 * @param config the configuration details
-	 * @return a list of the aliases
-	 * @todo This needs clarifying
-	*/
+    /**
+     * Loads the configuration file
+     * 
+     * @param config the configuration details
+     * @return a list of the aliases
+     * @todo This needs clarifying
+    */
     private List<Alias> load(FileConfiguration config) {
     
     	// Setup the list
@@ -105,13 +109,13 @@ public class SudoAlias extends JavaPlugin {
         // For each key parse it then add to list and return the list
         for (String key : keys) {
         
-        	// Config Root
+            // Config Root
             String path = "aliases." + key;
             
             // Permission Root
             String perm = "SudoAlias.alias." + key;
 
-			// Command from alias
+            // Command from alias
             String commandOrig = config.getString(path + ".command"), command;
             
             // Calculate required arguments if any
@@ -124,7 +128,7 @@ public class SudoAlias extends JavaPlugin {
                 command = commandOrig;
             }
 
-			// Get commands to run
+            // Get commands to run
             List<String> commandsToRun = config.getStringList(path + ".runCommand");
             
             // Get success message
@@ -144,7 +148,9 @@ public class SudoAlias extends JavaPlugin {
             // Check to see if this alias is correctly inserted, if not then skip it
             // else add it
             if (runAs == null || command.isEmpty() || commandsToRun == null) {
-                log.warning("Alias " + key + " skipped due to missing/incorrect information");
+                // @note Netbeans suggested this fix, it looks more acceptable but I'm
+                // not too sure how it would affect the class/plugin as a whole
+                this.log.log(Level.WARNING, "Alias {0} skipped due to missing/incorrect information", key);
                 continue;
             }
             
@@ -153,14 +159,14 @@ public class SudoAlias extends JavaPlugin {
         return aliasList;
     }
 
-	/**
-	 * Reload Configuration from configuration file
-	*/
+    /**
+     * Reload Configuration from configuration file
+    */
     public void reload() {
     	// Call the reload method, get the config, and load aliases from config
         this.reloadConfig();
         FileConfiguration config = this.getConfig();
-        aliases = load(config);
+        this.aliases = load(config);
     }
 
 	/**
@@ -169,7 +175,7 @@ public class SudoAlias extends JavaPlugin {
 	 * @return the plugins instance
 	*/
     public static SudoAlias getInstance() {
-        return instance;
+        return SudoAlias.instance;
     }
 
 	//@todo add a simple private setter for setInstance for best programming practices
