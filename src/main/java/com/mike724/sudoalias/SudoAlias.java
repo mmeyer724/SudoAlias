@@ -77,7 +77,7 @@ public class SudoAlias extends JavaPlugin {
         // Load the config file, if it doesn't exist then make one from the defaults
         // @todo clarify this accuracy, I'm not too familiar with Bukkit API
         FileConfiguration config = this.getConfig();
-        if (!new File(this.getDataFolder(), "config.yml").exists()) {
+        if (!new File(this.getDataFolder(), Config.configFileName).exists()) {
             config.options().copyDefaults(true);
             config.options().copyHeader(true);
             this.saveConfig();
@@ -88,7 +88,7 @@ public class SudoAlias extends JavaPlugin {
 
 	// Setup the receiver for various events
         this.getServer().getPluginManager().registerEvents(new AliasListener(), this);
-        this.getCommand("sudoalias").setExecutor(new SudoAliasCommandExecutor());
+        this.getCommand(Config.pluginCmd).setExecutor(new SudoAliasCommandExecutor());
     }
 
     /**
@@ -104,38 +104,38 @@ public class SudoAlias extends JavaPlugin {
         List<Alias> aliasList = new ArrayList<Alias>();
         
         // Get Keys from config file
-        Set<String> keys = config.getConfigurationSection("aliases").getKeys(false);
+        Set<String> keys = config.getConfigurationSection(Config.configRoot).getKeys(false);
         
         // For each key parse it then add to list and return the list
         for (String key : keys) {
         
             // Config Root
-            String path = "aliases." + key;
+            String path = Config.configCmdNameLayout.replace("{0}", key);
             
             // Permission Root
-            String perm = "SudoAlias.alias." + key;
+            String perm = Config.permLayout.replace("{0}", key);
 
             // Command from alias
-            String commandOrig = config.getString(path + ".command"), command;
+            String commandOrig = config.getString(path + Config.configCmdBranchName), command;
             
             // Calculate required arguments if any
             int argCount = 0;
-            if (commandOrig.contains("?")) {
-                command = commandOrig.substring(0, commandOrig.indexOf('?') - 1);
+            if (commandOrig.contains(Config.argPlaceholder.toString())) {
+                command = commandOrig.substring(0, commandOrig.indexOf(Config.argPlaceholder) - 1);
                 String args = commandOrig.substring(command.length() + 1);
-                argCount = args.length() - args.replace("?", "").length();
+                argCount = args.length() - args.replace(Config.argPlaceholder.toString(), "").length();
             } else {
                 command = commandOrig;
             }
 
             // Get commands to run
-            List<String> commandsToRun = config.getStringList(path + ".runCommand");
+            List<String> commandsToRun = config.getStringList(path + Config.configRunCmdBranchName);
             
             // Get success message
-            String successMsg = config.getString(path + ".successMessage");
+            String successMsg = config.getString(path + Config.configSuccMsgBranchName);
             
             // Get command to Run As
-            String runAsString = config.getString(path + ".runAs");
+            String runAsString = config.getString(path + Config.configRunAsBranchName);
             
             // Pase runAs, if it's there format it correctly, else leave null
             AliasRunAs runAs = null;
@@ -150,7 +150,7 @@ public class SudoAlias extends JavaPlugin {
             if (runAs == null || command.isEmpty() || commandsToRun == null) {
                 // @note Netbeans suggested this fix, it looks more acceptable but I'm
                 // not too sure how it would affect the class/plugin as a whole
-                this.log.log(Level.WARNING, "Alias {0} skipped due to missing/incorrect information", key);
+                this.log.log(Level.WARNING, Config.aliasSkipErrStr, key);
                 continue;
             }
             

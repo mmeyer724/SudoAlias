@@ -100,7 +100,7 @@ public class AliasListener implements Listener {
                 // accpeting the event by telling bukkit to call the application
                 // back for a command that the application does nothing to.
                 //No setCancelled, have to be "hacky"
-                e.setCommand("sudoalias nothing");
+                e.setCommand(Config.pluginCmd + " " + Config.fakeCommand);
                 return;
             }
         }

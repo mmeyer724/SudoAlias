@@ -1,6 +1,7 @@
 package com.mike724.sudoalias;
 
 // Core bukkit imports
+import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -56,7 +57,7 @@ public class AliasExecutor implements Runnable {
     	// Check for permissions first
         if (!this.sender.hasPermission(this.alias.getPermNode())) {
             
-            this.sender.sendMessage(ChatColor.RED + "Sorry, you don't have permission to do that.");
+            this.sender.sendMessage(ChatColor.RED + Config.permErrorStr);
             return;
         }
         
@@ -69,7 +70,7 @@ public class AliasExecutor implements Runnable {
             
             // @note $wait:### Signifies a pause in execution
             // check for that pause
-            if (command.startsWith("$wait:")) {
+            if (command.startsWith(Config.cmdWaitStr + ":")) {
                 
                 // Split the pause command from the rest and ensure another
                 // argument is provided or silently ignore all-together
@@ -80,12 +81,13 @@ public class AliasExecutor implements Runnable {
                 
                 // If a second argument is given parse it as a number, if
                 // it fails for any reason then issue a warning and revert
-                // to the default 1000 (1 second)
-                long time = 1000l;
+                // to the default
+                long time = Config.cmdWaitArgDef;
+                
                 try {
                     time = Long.parseLong(data[1]);
                 } catch (NumberFormatException ex) {
-                    SudoAlias.getInstance().getLogger().warning("Invalid long time value " + data[1] + " defaulting to 1000.");
+                    SudoAlias.getInstance().getLogger().log(Level.WARNING, Config.cmdWaitArgErrStr, data[1]);
                 }
                 
                 // Now sleep for specified time
@@ -100,12 +102,12 @@ public class AliasExecutor implements Runnable {
                 
                 // Replace all instances of $player with the player name
                 if (this.playerName != null && !this.playerName.isEmpty()) {
-                    command = command.replace("$player", this.playerName);
+                    command = command.replace(Config.varPlayer, this.playerName);
                 }
                 
                 // replace all $# with the argument id
                 for (int i = 0; i < argsAmount; i++) {
-                    command = command.replace("$" + i, args[i]);
+                    command = command.replace(Config.varArg.replace("{0}", Integer.toString(i)), args[i]);
                 }
                 
                 // Get server handle
