@@ -1,46 +1,43 @@
 package com.mike724.sudoalias;
 
+// Core Bukkit Imports
 import org.bukkit.command.CommandSender;
 
 /**
- * ?
- *
+ * Executes a single alias command
+ * 
  * @author mike724
- * @todo fill in the class description
- */
+*/
 public class AliasCmdExecutor implements Runnable {
 
     /**
-     * ?
-     *
-     * @todo Fill in the description
-     */
+     * The details of the command sender
+    */
     private CommandSender sender;
-
+    
     /**
-     * The command to execute
-     */
-    private String cmd;
+     * The raw command to execute
+    */
+    private String command;
 
     /**
      * Class constructor
-     *
-     * @param sender ?
-     * @param cmd    the command string
-     * @todo fill in the sender details
-     */
-    public AliasCmdExecutor(CommandSender sender, String cmd) {
+     * 
+     * Just copies the given values to memory
+     * 
+     * @param sender The sender details of the command
+     * @param command the command string
+    */
+    public AliasCmdExecutor(CommandSender sender, String command) {
         this.sender = sender;
-        this.cmd = cmd;
+        this.command = command;
     }
 
     /**
-     * Thread run method
-     *
-     * @todo elaborate
-     */
+     * Tells the server to execute the command using details from sender
+    */
     @Override
     public void run() {
-        SudoAlias.getInstance().getServer().dispatchCommand(sender, cmd);
+        SudoAlias.getInstance().getServer().dispatchCommand(sender, this.command);
     }
 }
