@@ -57,7 +57,7 @@ public class AliasExecutor implements Runnable {
     	// Check for permissions first
         if (!this.sender.hasPermission(this.alias.getPermNode())) {
             
-            this.sender.sendMessage(ChatColor.RED + Config.permErrorStr);
+            this.sender.sendMessage(ChatColor.RED + Config.errPerm);
             return;
         }
         
@@ -70,7 +70,7 @@ public class AliasExecutor implements Runnable {
             
             // @note $wait:### Signifies a pause in execution
             // check for that pause
-            if (command.startsWith(Config.cmdWaitStr + ":")) {
+            if (command.startsWith(Config.spCmdWait + ":")) {
                 
                 // Split the pause command from the rest and ensure another
                 // argument is provided or silently ignore all-together
@@ -87,7 +87,7 @@ public class AliasExecutor implements Runnable {
                 try {
                     time = Long.parseLong(data[1]);
                 } catch (NumberFormatException ex) {
-                    SudoAlias.getInstance().getLogger().log(Level.WARNING, Config.cmdWaitArgErrStr, data[1]);
+                    SudoAlias.getInstance().getLogger().log(Level.WARNING, Config.errCmdWaitArg, data[1]);
                 }
                 
                 // Now sleep for specified time
@@ -102,12 +102,12 @@ public class AliasExecutor implements Runnable {
                 
                 // Replace all instances of $player with the player name
                 if (this.playerName != null && !this.playerName.isEmpty()) {
-                    command = command.replace(Config.varPlayer, this.playerName);
+                    command = command.replace(Config.spVarPlayer, this.playerName);
                 }
                 
                 // replace all $# with the argument id
                 for (int i = 0; i < argsAmount; i++) {
-                    command = command.replace(Config.varArg.replace("{0}", Integer.toString(i)), args[i]);
+                    command = command.replace(Config.varArg.replace("%1", Integer.toString(i)), args[i]);
                 }
                 
                 // Get server handle

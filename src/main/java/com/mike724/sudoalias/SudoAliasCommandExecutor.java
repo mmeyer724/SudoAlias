@@ -44,7 +44,7 @@ public class SudoAliasCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
     	
     	// If someone typed /sudoalias (Case insensitive)
-        if (cmd.getName().equalsIgnoreCase(Config.pluginCmd)) {
+        if (cmd.getName().equalsIgnoreCase(Config.cmdPlugin)) {
             if (args.length != 0) {
             
             	// With one argument
@@ -52,14 +52,14 @@ public class SudoAliasCommandExecutor implements CommandExecutor {
                 	
                     // @note there is a permission SudoAlias.reload
                     // @note reload can be called from anywhere
-                    if (args[0].equalsIgnoreCase(Config.reloadCommand) && sender.hasPermission(Config.reloadCommand)) {
+                    if (args[0].equalsIgnoreCase(Config.cmdReload) && sender.hasPermission(Config.permReloadPath)) {
                     	
                     	// And that argument is reload
                         SudoAlias.getInstance().reload();
-                        sender.sendMessage(ChatColor.GREEN + Config.reloadMsg);
+                        sender.sendMessage(ChatColor.GREEN + Config.msgReload);
                         return true;
                         
-                    } else if (args[0].equalsIgnoreCase(Config.fakeCommand)) {
+                    } else if (args[0].equalsIgnoreCase(Config.cmdFake)) {
                     	// @note Part of the hack workaround
                         return true;
                     }

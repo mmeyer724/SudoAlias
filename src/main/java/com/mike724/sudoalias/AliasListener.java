@@ -100,7 +100,7 @@ public class AliasListener implements Listener {
                 // accpeting the event by telling bukkit to call the application
                 // back for a command that the application does nothing to.
                 //No setCancelled, have to be "hacky"
-                e.setCommand(Config.pluginCmd + " " + Config.fakeCommand);
+                e.setCommand(Config.cmdPlugin + " " + Config.cmdFake);
                 return;
             }
         }
