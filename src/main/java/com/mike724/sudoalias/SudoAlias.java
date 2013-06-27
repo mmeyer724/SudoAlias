@@ -47,6 +47,11 @@ public class SudoAlias extends JavaPlugin {
     public List<Alias> aliases;
     
     /**
+     * All the defines
+    */
+    public List<Define> defines;
+    
+    /**
      * ?
      *
      * @note All class variables should be private with a public getter/setter for best practices
@@ -104,6 +109,7 @@ public class SudoAlias extends JavaPlugin {
         //@note for best practices it's best to access a staticfield from an instance like this
         SudoAlias.instance = this;
         this.aliases = new ArrayList<Alias>();
+        this.defines = new ArrayList<Define>();
         this.log = this.getLogger();
 
 	// Make sure the config folder exists, if not create it
@@ -142,6 +148,18 @@ public class SudoAlias extends JavaPlugin {
         
         // Get Keys from config file
         Set<String> keys = config.getConfigurationSection(Config.configRootPath).getKeys(false);
+        
+        // Get defines
+        Set<String> defines = config.getConfigurationSection(Config.configDefinePath).getKeys(false);
+        
+        // Add each define to the defines variable which will automatically parse them
+        for(String define : defines)
+        {
+            // @note I'm making an excpetion to this and not adding it to the Config class
+            // because it's not really a "path", just a quick way to access the value to the key
+            String value = config.getString(Config.configDefinePath + "." + define);
+            this.defines.add(new Define(define, value));
+        }
         
         // For each key parse it then add to list and return the list
         for (String key : keys) {

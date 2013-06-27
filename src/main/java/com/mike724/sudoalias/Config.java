@@ -54,6 +54,13 @@ public class Config {
      */
     public static String errAliasSkip = "Alias %1 skipped due to missing/incorrect information.";
     
+    /**
+     * Wrong argument to defines
+     * 
+     * @param _0 The raw argument provided wrong (Provided Externally)
+     */
+    public static String defineWrongArg = "Wrong argument to define: %0";
+    
     /***************************************
      * MESSAGES
      ***************************************/
@@ -87,6 +94,13 @@ public class Config {
      * @param _1 The argument number (Provided Externally)
      */
     public static String varArg = "%1";
+    
+    /**
+     * Insert Define variable
+     * 
+     * @param _1 The define key (Provided Externally)
+     */
+    public static String spVarDef = "%1";
     
     /**
      * The argument placeholder
@@ -180,6 +194,15 @@ public class Config {
     public static String configRunCmdPath = "%0.%2";
     
     /**
+     * The define command path
+     * 
+     * The path to the define command list in the file
+     * 
+     * @param _0 The path to the define root (Provided Internally)
+     */
+    public static String configDefinePath = "%0";
+    
+    /**
      * The success message path
      * 
      * The path to the success message in the CommandName section in the file
@@ -271,6 +294,11 @@ public class Config {
                 Config.varArg +
                 Config.spCmdSuffix;
         
+        Config.spVarDef = 
+                Config.spCmdPrefix +
+                Config.spVarDef +
+                Config.spCmdSuffix;
+        
         Config.errCmdWaitArg = 
                 Config.errCmdWaitArg
                     .replace("%2", Long.toString(Config.cmdWaitArgDef));
@@ -298,6 +326,10 @@ public class Config {
                 Config.configRunCmdPath
                     .replace("%0", Config.configCmdNamePath)
                     .replace("%2", "runCommand");
+        
+        Config.configDefinePath = 
+                Config.configDefinePath
+                    .replace("%0", "define");
         
         Config.configSuccMsgPath =
                 Config.configSuccMsgPath

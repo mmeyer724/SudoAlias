@@ -68,6 +68,32 @@ public class AliasExecutor implements Runnable {
         // Now process each command
         for (String command : this.alias.getCommandsToRun()) {
             
+            // Replace all instances of a define with the define value
+            // This comes first because defines take priority over others
+            // if a user makes a "player" define then defines would always
+            // get to it before the $player variable
+            if (SudoAlias.getInstance().defines != null && 
+                    !SudoAlias.getInstance().defines.isEmpty()) {
+
+                for(int i = 0; i < SudoAlias.getInstance().defines.size(); i++)
+                {   
+                    Define tmp = SudoAlias.getInstance().defines.get(i);
+
+                    if (
+                            (tmp.key == null || tmp.key.equalsIgnoreCase("")) ||
+                            (tmp.value == null || tmp.value.equalsIgnoreCase(""))
+                        )
+                    {
+                        continue;
+                    }
+
+                    command = command.replace(
+                                Config.spVarDef.replace("%1", tmp.key),
+                                tmp.value
+                            );
+                }
+            }
+            
             // @note $wait:### Signifies a pause in execution
             // check for that pause
             if (command.startsWith(Config.spCmdWait + ":")) {
