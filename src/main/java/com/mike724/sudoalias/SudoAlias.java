@@ -62,8 +62,45 @@ public class SudoAlias extends JavaPlugin {
     */
     @Override
     public void onEnable() {
-    
-    	// Initialize variables
+        
+        // Required to initialize most all the internal workings of the plugin
+        Config.init();
+        
+    	/*// Initialize variables
+        System.out.println("cmdFake: " + Config.cmdFake);
+        System.out.println("cmdPlugin: " + Config.cmdPlugin);
+        System.out.println("cmdReload: " + Config.cmdReload);
+        
+        System.out.println("configCmdName: " + Config.configCmdNamePath);
+        System.out.println("configCmd: " + Config.configCmdPath);
+        System.out.println("configFileName: " + Config.configFileName);
+        System.out.println("configRoot: " + Config.configRootPath);
+        System.out.println("configRunAs: " + Config.configRunAsPath);
+        System.out.println("configRunCmd: " + Config.configRunCmdPath);
+        System.out.println("configSuccMsg: " + Config.configSuccMsgPath);
+        
+        System.out.println("errAliasSkip: " + Config.errAliasSkip);
+        System.out.println("errCmdWaitArg: " + Config.errCmdWaitArg);
+        System.out.println("errPerm: " + Config.errPerm);
+        
+        System.out.println("msgReload: " + Config.msgReload);
+        
+        System.out.println("permCmdName: " + Config.permCmdNamePath);
+        System.out.println("permGlobRoot: " + Config.permGlobRootPath);
+        System.out.println("permReloadPath: " + Config.permReloadPath);
+        System.out.println("permRootPath: " + Config.permRootPath);
+        
+        System.out.println("spCmdPrefix: " + Config.spCmdPrefix);
+        System.out.println("spCmdSuffix: " + Config.spCmdSuffix);
+        System.out.println("spCmdWait: " + Config.spCmdWait);
+        
+        System.out.println("spVarPlayer: " + Config.spVarPlayer);
+        
+        System.out.println("varArg: " + Config.varArg);
+        
+        System.out.println("cmdWaitArgDef: " + Config.cmdWaitArgDef);
+        System.out.println("varArgPlaceholder: " + Config.varArgPlaceholder);*/
+        
         //@note for best practices it's best to access a staticfield from an instance like this
         SudoAlias.instance = this;
         this.aliases = new ArrayList<Alias>();
