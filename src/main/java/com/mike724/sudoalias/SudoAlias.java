@@ -161,6 +161,23 @@ public class SudoAlias extends JavaPlugin {
             // Get command to Run As
             String runAsString = config.getString(Config.configRunAsPath.replace("%1", key));
             
+            // Get defines
+            Set<String> localDefines = null;
+            List<Define> parsedLocalDefines = new ArrayList<Define>();
+            if(config.getConfigurationSection(Config.configLocalDefinesPath.replace("%1", key)) != null)
+            {
+                localDefines = config.getConfigurationSection(Config.configLocalDefinesPath.replace("%1", key)).getKeys(false);
+
+                // Add each define to the defines variable which will automatically parse them
+                for(String localDefine : localDefines)
+                {
+                    // @note I'm making an excpetion to this and not adding it to the Config class
+                    // because it's not really a "path", just a quick way to access the value to the key
+                    String value = config.getString(Config.configLocalDefinesPath.replace("%1", key) + "." + localDefine);
+                    parsedLocalDefines.add(new Define(localDefine, value));
+                }
+            }
+            
             // Pase runAs, if it's there format it correctly, else leave null
             AliasRunAs runAs = null;
             if (runAsString != null) {
@@ -193,7 +210,14 @@ public class SudoAlias extends JavaPlugin {
                 continue;
             }
             
-            aliasList.add(new Alias(command, argCount, commandsToRun, successMsg, perm, runAs, strictArgs));
+            aliasList.add(new Alias(command, 
+                    argCount, 
+                    commandsToRun, 
+                    successMsg, 
+                    perm, 
+                    runAs, 
+                    strictArgs, 
+                    parsedLocalDefines));
         }
         return aliasList;
     }

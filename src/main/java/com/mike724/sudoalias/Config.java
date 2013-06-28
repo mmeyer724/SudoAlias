@@ -235,6 +235,17 @@ public class Config {
      */
     public static String configStrictArgsPath = "%0.%2";
     
+    /**
+     * The local defines path
+     * 
+     * The path to the local define in the CommandName section in the file
+     * 
+     * @param _0 The path to command name (Provided In/Externally)
+     * @param _1 (Inherited from _0) The CommandName (Provided Externally)
+     * @param _2 The path from CommandName to local defines as (Provided Internally)
+     */
+    public static String configLocalDefinesPath = "%0.%2";
+    
     /***************************************
      * PERMISSIONS
      ***************************************/
@@ -356,6 +367,11 @@ public class Config {
                 Config.configStrictArgsPath
                     .replace("%0", Config.configCmdNamePath)
                     .replace("%2", "strictArgs");
+        
+        Config.configLocalDefinesPath =
+                Config.configLocalDefinesPath
+                    .replace("%0", Config.configCmdNamePath)
+                    .replace("%2", "define");
         
         // Depends on permGlobRootPath and configRootPath which is setup by this point
         Config.permRootPath =

@@ -59,6 +59,11 @@ public class Alias {
     private int amountOfArgs;
     
     /**
+     * All the local defines
+    */
+    public List<Define> localDefines;
+    
+    /**
      * Whether to enable strict args mode
      * 
      * If enabled the arguments given must match exactly or the command will be skipped
@@ -76,7 +81,14 @@ public class Alias {
      * @param permNode 		the command permission string
      * @param runAs 		run as who value
     */
-    public Alias(String command, int amountOfArgs, List<String> commandToRun, String successMsg, String permNode, AliasRunAs runAs, boolean strictArgs) {
+    public Alias(String command, 
+            int amountOfArgs, 
+            List<String> commandToRun, 
+            String successMsg, 
+            String permNode, 
+            AliasRunAs runAs, 
+            boolean strictArgs,
+            List<Define> localDefines) {
         this.command = command;
         this.amountOfArgs = amountOfArgs;
         this.commandsToRun = commandToRun;
@@ -84,6 +96,7 @@ public class Alias {
         this.permNode = permNode;
         this.runAs = runAs;
         this.strictArgs = strictArgs;
+        this.localDefines = localDefines;
     }
 
     /**
