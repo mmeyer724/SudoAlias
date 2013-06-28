@@ -57,6 +57,14 @@ public class Alias {
      * The number of arguments
     */
     private int amountOfArgs;
+    
+    /**
+     * Whether to enable strict args mode
+     * 
+     * If enabled the arguments given must match exactly or the command will be skipped
+     * all together, if disabled the arguments are optional and more or less can be given
+     */
+    private boolean strictArgs;
 
     /**
      * Class constructor
@@ -68,13 +76,14 @@ public class Alias {
      * @param permNode 		the command permission string
      * @param runAs 		run as who value
     */
-    public Alias(String command, int amountOfArgs, List<String> commandToRun, String successMsg, String permNode, AliasRunAs runAs) {
+    public Alias(String command, int amountOfArgs, List<String> commandToRun, String successMsg, String permNode, AliasRunAs runAs, boolean strictArgs) {
         this.command = command;
         this.amountOfArgs = amountOfArgs;
         this.commandsToRun = commandToRun;
         this.successMsg = (successMsg == null) ? "" : successMsg;
         this.permNode = permNode;
         this.runAs = runAs;
+        this.strictArgs = strictArgs;
     }
 
     /**
@@ -190,6 +199,25 @@ public class Alias {
     public AliasRunAs setRunAs(AliasRunAs value) {
         return this.runAs = value;
     }
+    
+    /**
+     * Simple getter for the strictArgs variable
+     * 
+     * @return the current value in memory
+    */
+    public boolean getStrictArgs() {
+        return this.strictArgs;
+    }
+
+    /**
+     * Simple setter for the strictArgs variable
+     * 
+     * @param value the new value to replace the old one
+     * @return the newly stored value
+    */
+    public boolean setStrictArgs(boolean value) {
+        return this.strictArgs = value;
+    }
 
     /**
      * Is the entered value a complete match
@@ -203,23 +231,47 @@ public class Alias {
     */
     public boolean isMatch(String command) {
         
-        // Check for a match
-	// prefix the slash to the alias stored here since that's removed upon storing here
-        if (command.startsWith("/" + this.getCommand())) {
+        // Take raw command string, trim it, then split it up
+        String[] cmdExploded = command.trim().split(" ");
         
-            // Break the entered command into individual arguments
-            String[] args = this.getArgs(command);
-            
-            // Get the length of the arguments
-            int amountOfArgs = args.length;
-            
-            // Confirm the number of arguments match the ones stored here
-            if (amountOfArgs != this.getAmountOfArgs()) {
-                return false;
+        // Make sure it's got at least 1 segment (The Command)
+        if(cmdExploded == null || cmdExploded.length < 1) return false;
+        
+        // Extract command
+        String cmd = cmdExploded[0];
+        int args = 0;
+        
+        // Check for arguments, if it has any note how many
+        if(cmdExploded.length > 1) { args = cmdExploded.length - 1; }
+        
+        // Check for slash prefix, if it has one then remove it
+        if(cmd.startsWith("/")) { cmd = cmd.substring(1); }
+        
+        // Now begin comparing
+        // If strict args mode is on compare the name and the args, else just the name
+        if(this.strictArgs)
+        {
+            if(
+                    this.getCommand().equalsIgnoreCase(cmd) &&
+                    this.getAmountOfArgs() == args
+              )
+            {
+                return true;
             }
-            return true;
+            
+            return false;
         }
-        return false;
+        else
+        {
+            if(
+                    this.getCommand().equalsIgnoreCase(cmd)
+              )
+            {
+                return true;
+            }
+            
+            return false;
+        }
     }
 
     /**

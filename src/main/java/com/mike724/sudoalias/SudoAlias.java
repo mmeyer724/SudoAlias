@@ -71,41 +71,6 @@ public class SudoAlias extends JavaPlugin {
         // Required to initialize most all the internal workings of the plugin
         Config.init();
         
-    	/*// Initialize variables
-        System.out.println("cmdFake: " + Config.cmdFake);
-        System.out.println("cmdPlugin: " + Config.cmdPlugin);
-        System.out.println("cmdReload: " + Config.cmdReload);
-        
-        System.out.println("configCmdName: " + Config.configCmdNamePath);
-        System.out.println("configCmd: " + Config.configCmdPath);
-        System.out.println("configFileName: " + Config.configFileName);
-        System.out.println("configRoot: " + Config.configRootPath);
-        System.out.println("configRunAs: " + Config.configRunAsPath);
-        System.out.println("configRunCmd: " + Config.configRunCmdPath);
-        System.out.println("configSuccMsg: " + Config.configSuccMsgPath);
-        
-        System.out.println("errAliasSkip: " + Config.errAliasSkip);
-        System.out.println("errCmdWaitArg: " + Config.errCmdWaitArg);
-        System.out.println("errPerm: " + Config.errPerm);
-        
-        System.out.println("msgReload: " + Config.msgReload);
-        
-        System.out.println("permCmdName: " + Config.permCmdNamePath);
-        System.out.println("permGlobRoot: " + Config.permGlobRootPath);
-        System.out.println("permReloadPath: " + Config.permReloadPath);
-        System.out.println("permRootPath: " + Config.permRootPath);
-        
-        System.out.println("spCmdPrefix: " + Config.spCmdPrefix);
-        System.out.println("spCmdSuffix: " + Config.spCmdSuffix);
-        System.out.println("spCmdWait: " + Config.spCmdWait);
-        
-        System.out.println("spVarPlayer: " + Config.spVarPlayer);
-        
-        System.out.println("varArg: " + Config.varArg);
-        
-        System.out.println("cmdWaitArgDef: " + Config.cmdWaitArgDef);
-        System.out.println("varArgPlaceholder: " + Config.varArgPlaceholder);*/
-        
         //@note for best practices it's best to access a staticfield from an instance like this
         SudoAlias.instance = this;
         this.aliases = new ArrayList<Alias>();
@@ -150,15 +115,19 @@ public class SudoAlias extends JavaPlugin {
         Set<String> keys = config.getConfigurationSection(Config.configRootPath).getKeys(false);
         
         // Get defines
-        Set<String> defines = config.getConfigurationSection(Config.configDefinePath).getKeys(false);
-        
-        // Add each define to the defines variable which will automatically parse them
-        for(String define : defines)
+        Set<String> defines = null;
+        if(config.getConfigurationSection(Config.configDefinePath) != null)
         {
-            // @note I'm making an excpetion to this and not adding it to the Config class
-            // because it's not really a "path", just a quick way to access the value to the key
-            String value = config.getString(Config.configDefinePath + "." + define);
-            this.defines.add(new Define(define, value));
+            defines = config.getConfigurationSection(Config.configDefinePath).getKeys(false);
+            
+            // Add each define to the defines variable which will automatically parse them
+            for(String define : defines)
+            {
+                // @note I'm making an excpetion to this and not adding it to the Config class
+                // because it's not really a "path", just a quick way to access the value to the key
+                String value = config.getString(Config.configDefinePath + "." + define);
+                this.defines.add(new Define(define, value));
+            }
         }
         
         // For each key parse it then add to list and return the list
@@ -174,9 +143,11 @@ public class SudoAlias extends JavaPlugin {
             int argCount = 0;
             
             if (commandOrig.contains(Config.varArgPlaceholder.toString())) {
-                command = commandOrig.substring(0, commandOrig.indexOf(Config.varArgPlaceholder) - 1);
-                String args = commandOrig.substring(command.length() + 1);
-                argCount = args.length() - args.replace(Config.varArgPlaceholder.toString(), "").length();
+                
+                String[] commandTmp = commandOrig.split(" ");
+                
+                argCount = commandTmp.length - 1;
+                command = commandTmp[0];
             } else {
                 command = commandOrig;
             }
@@ -198,6 +169,21 @@ public class SudoAlias extends JavaPlugin {
                 runAs = AliasRunAs.valueOf(runAsString.toUpperCase().trim());
             }
             
+            boolean strictArgs = true;
+            String strictArgsString = config.getString(Config.configStrictArgsPath.replace("%1", key));
+            
+            if(strictArgsString != null)
+            {
+                // If no or false then false, any other value is true
+                if(
+                        strictArgsString.equalsIgnoreCase("no") ||
+                        strictArgsString.equalsIgnoreCase("false")
+                  )
+                {
+                    strictArgs = false;
+                }
+            }
+            
             // Check to see if this alias is correctly inserted, if not then skip it
             // else add it
             if (runAs == null || command.isEmpty() || commandsToRun == null) {
@@ -207,7 +193,7 @@ public class SudoAlias extends JavaPlugin {
                 continue;
             }
             
-            aliasList.add(new Alias(command, argCount, commandsToRun, successMsg, perm, runAs));
+            aliasList.add(new Alias(command, argCount, commandsToRun, successMsg, perm, runAs, strictArgs));
         }
         return aliasList;
     }

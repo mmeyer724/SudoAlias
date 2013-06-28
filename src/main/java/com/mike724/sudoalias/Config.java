@@ -224,6 +224,17 @@ public class Config {
      */
     public static String configRunAsPath = "%0.%2";
     
+    /**
+     * The strict args path
+     * 
+     * The path to the strict args in the CommandName section in the file
+     * 
+     * @param _0 The path to command name (Provided In/Externally)
+     * @param _1 (Inherited from _0) The CommandName (Provided Externally)
+     * @param _2 The path from CommandName to strict args as (Provided Internally)
+     */
+    public static String configStrictArgsPath = "%0.%2";
+    
     /***************************************
      * PERMISSIONS
      ***************************************/
@@ -340,6 +351,11 @@ public class Config {
                 Config.configRunAsPath
                     .replace("%0", Config.configCmdNamePath)
                     .replace("%2", "runAs");
+        
+        Config.configStrictArgsPath =
+                Config.configStrictArgsPath
+                    .replace("%0", Config.configCmdNamePath)
+                    .replace("%2", "strictArgs");
         
         // Depends on permGlobRootPath and configRootPath which is setup by this point
         Config.permRootPath =
